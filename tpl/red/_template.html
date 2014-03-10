@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   <style type="text/css">
+* {
+    padding: 0; margin: 0;
+    font-family: Tahoma, Arial, sans-serif;
+}
+body {
+    background: url("${list.tplDir}/redback.jpg") no-repeat fixed center top rgb(0, 0, 0);
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+h1 {
+    font-size: 80px;
+    color: #F6B35D;
+    text-shadow: 0 1px 3px rgb(51, 51, 51);
+    letter-spacing: -4px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: Consolas, "Courier New", sans-serif;
+    font-weight: bold;
+}
+div#list {
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+    background-color: transparent;
+}
+
+div.task {
+    font-family: Consolas, "Courier New", sans-serif;
+    font-size: 24px;
+    color: #841F02;
+    padding: 12px;
+    margin-bottom: 12px;
+    background: url(${list.tplDir}/white-80.png) repeat;
+    border-radius: 10px;
+    letter-spacing: -2px;
+}
+div.closed1 {
+    background: url(${list.tplDir}/white-40.png) repeat;
+}
+div.prior {
+    float: left;
+    background-color: #841F02;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+div.priorA {
+    background-color: #E1830C;
+}
+div.priorB {
+    background-color: #C36309;
+}
+div.priorC {
+    background-color: #B35207;
+}
+div.priorD {
+    background-color: #A44105;
+}
+div.priorE {
+    background-color: #943004;
+}
+
+span.ctx {
+    color: #fff;
+    background-color: #A63206;
+    border-radius: 12px;
+    padding: 0 10px 2px 6px;
+}
+span.ctx span {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #ccc;
+}
+span.prj {
+    border: 1px solid #ddd;
+    background-color: #f0f0f0;
+    border-radius: 12px;
+    padding: 0 10px 2px 6px;
+}
+div.date, div.date-completed {
+    font-size: 0.8em;
+    font-weight: bold;
+    font-family: "Courier New", courier, sans-serif;
+    letter-spacing: -3px;
+    color: #fff;
+    float: left;
+    position: relative;
+    left: -12px;
+    top: 4px;
+    background-color: #841F02;
+    padding-right: 5px;
+    border-radius: 0 10px 10px 0;
+}
+div.date-completed {
+    color: #F6B35D;
+}
+   </style>
+</head>
+<body>
+
+<h1>${list.tplName} ${list.title}</h1>
+
+[kp:page=index]
+<div id="list">
+    [kp:taskList]
+    <div class="task closed${t.completed}">
+        [kp:if ${t.hasPriority}]
+            <div class="prior prior${t.priority}">${t.priority}</div>
+        [/kp:if]
+
+        [kp:if ${t.hasCompletedDate}]
+        <div class="date-completed">${t.completedDate}</span></div>
+        [/kp:if]
+
+        [kp:if ${t.hasCreatedDate}]
+        <div class="date">${t.createdDate}</div>
+        [/kp:if]
+
+        [kp:task]
+            [kp:task:txt]
+                ${t.task.text}
+            [/kp:task:txt]
+            [kp:task:ctx]
+                <span class="ctx"><span>@</span>${t.task.context}</span>
+            [/kp:task:ctx]
+            [kp:task:prj]
+                <span class="prj">+${t.task.project}</span>
+            [/kp:task:prj]
+        [/kp:task]
+    </div>
+    [/kp:taskList]
+</div>
+[/kp:page]
+
+
+</body>
+</html>

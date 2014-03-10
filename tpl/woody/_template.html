@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   <style type="text/css">
+* {
+    padding: 0; margin: 0;
+    font-family: Tahoma, Arial, sans-serif;
+}
+body {
+    background: url("${list.tplDir}/wood.jpg") no-repeat fixed center top rgb(0, 0, 0);
+    padding-top: 50px;
+    padding-bottom: 10px;
+}
+h1 {
+    font-size: 40px;
+    color: #fff;
+    text-shadow: 0 1px 3px rgb(51, 51, 51);
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+h2 {
+    font-size: 20px;
+    color: #555;
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+}
+div#list, div#list-edit {
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 675px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+div.task {
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 24px;
+    border: 1px solid #aaa;
+    color: #666;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+div.current {
+    font-size: 30px;
+    left: -40px;
+    position: relative;
+    width: 735px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #999;
+    box-shadow: 0 0 5px #444444;
+}
+div.current div.inner {
+    background-color: #f60;
+    color: #fff;
+    padding: 10px;
+}
+div.prior1 {
+    background: url("${list.tplDir}/star.png") no-repeat 6px 10px;
+    padding-left: 50px;
+}
+span.ctx {
+    color: #fff;
+    background-color: #666;
+    border-radius: 12px;
+    letter-spacing: -1px;
+    padding: 0 10px 2px 6px;
+}
+span.ctx span {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #ccc;
+}
+span.prj {
+    border: 1px solid #ddd;
+    background-color: #f0f0f0;
+    padding: 0 6px 0 4px;
+}
+div.date {
+    font-size: 0.8em;
+    font-weight: bold;
+    font-family: "Courier New", courier, sans-serif;
+    letter-spacing: -3px;
+    color: #ff6600;
+    float: left;
+    text-align: center;
+    position: relative;
+    top:-2px;
+    left: -10px;
+}
+
+div.date span {
+    font-size: 0.5em;
+    letter-spacing: -1px;
+    position: relative;
+    top: -4px;
+}
+
+div#sublink {
+    text-align: right;
+    font-family: Tahoma, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+div#sublink a {
+    color: #444444;
+    text-decoration: none;
+    border-bottom: 1px dotted #666666;
+}
+
+
+div#list-edit {
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 675px;
+    background-color: transparent;
+}
+input.password {
+    border: 1px solid #999;
+    background: transparent url(${list.tplDir}/white-40.png);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 17px;
+    margin-top: 10px;
+}
+textarea {
+    border: 1px solid #999;
+    background: transparent url(${list.tplDir}/white-40.png);
+    font-family: "Courier New", Courier, monospace;
+    font-weight: bold;
+    font-size: 17px;
+    width: 670px;
+    padding: 10px;
+    color: #111;
+}
+input.button {
+    border: 1px solid #555;
+    padding: 10px;
+    font-family: Courier New, monospace;
+    color: #111;
+    background-color: #eee;
+    margin-top: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    width: 80px;
+    float: right;
+}
+   </style>
+</head>
+<body>
+
+<h1>${list.title}: ${list.tplName}</h1>
+
+[kp:page=index]
+<div id="list">
+    <h2>${list.totalOpen} open tasks (${list.donePercent}%) of total ${list.total} are waiting for you!</h2>
+
+    [kp:taskList]
+    [kp:if ${t.open}]
+    <div class="task [kp:if ${t.index} == 0]current[/kp:if] prior${t.hasPriority}">
+        <div class="inner">
+
+            [kp:if ${t.hasCreatedDate}]
+            <div class="date">${t.createdDate}<br><span>(${t.age.days} days ago)</span></div>
+            [/kp:if]
+
+            [kp:task]
+                [kp:task:txt]
+                    ${t.task.text}
+                [/kp:task:txt]
+                [kp:task:ctx]
+                    <span class="ctx"><span>@</span>${t.task.context}</span>
+                [/kp:task:ctx]
+                [kp:task:prj]
+                    <span class="prj">+${t.task.project}</span>
+                [/kp:task:prj]
+            [/kp:task]
+        </div>
+    </div>
+    [/kp:if]
+    [/kp:taskList]
+    <div id="sublink">
+        <a href="${keenpin.edit}">Edit list</a>
+    </div>
+</div>
+[/kp:page]
+
+[kp:page=edit]
+<div id="list-edit">
+    <form action="${keenpin.update}" method="POST">
+        <textarea rows="20" id="edit" name="tasks">${list.raw}</textarea>
+        <div style="color: #fff; float: left;">password: <input type="password" name="password" class="password"></div>
+        <input type="hidden" name="tpl" value="${list.tplName}">
+
+        <input type="button" value="Cancel" class="button" onclick="window.location.href='${keenpin.index}'; return false;">
+        <input type="submit" value="Save" class="button">
+    </form>
+</div>
+[/kp:page]
+
+
+</body>
+</html>

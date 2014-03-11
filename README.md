@@ -5,7 +5,7 @@ _keenpin_ is beautiful **todo.txt** web template engine. It takes raw **todo.txt
 
 ## Installation
 
-The use is simple, all you need is a PHP server.
+The usage is simple, all you need is a PHP-enabled server.
 
 + download project (or simply clone it) into the root dir
 + update `config.php` and choose template
@@ -30,4 +30,4 @@ Please share your templates with us!
 
 ## Authors
 
-Built by Igor Spasić and Sylvain Petinot with :heart:
+Built by Igor and Sylvain with :heart:
